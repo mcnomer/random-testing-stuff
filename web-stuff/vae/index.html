@@ -105,6 +105,7 @@
             inputMeanVar(e);
         }
         document.onpointermove = e => {
+            e.preventDefault();
             if (pointerDown) inputMeanVar(e);
         }
         document.onpointerup = () => pointerDown = false;
