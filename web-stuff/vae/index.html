@@ -26,6 +26,8 @@
             height: 280px;
             border: 2px black solid;
             border-radius: 5px;
+            touch-action: none;
+            user-select: none;
         }
         .select > .handle {
             width: 1rem;
@@ -35,6 +37,7 @@
             transform: translate(calc(140px - 0.5rem), calc(140px - 0.5rem));
             cursor: all-scroll;
             transition: background-color 150ms ease;
+            touch-action: none;
         }
         .select > .handle:hover {
             background: lightgreen;
@@ -86,8 +89,8 @@
         function inputMeanVar(e) {
             e.preventDefault();
             const rect = selectorBox.getBoundingClientRect();
-            let px = (e.pageX - rect.left) / rect.width;
-            let py = (e.pageY - rect.top) / rect.height;
+            let px = (e.clientX - rect.left) / rect.width;
+            let py = (e.clientY - rect.top) / rect.height;
             px = Math.max(Math.min(1, px), 0);
             py = Math.max(Math.min(1, py), 0);
             selectorHandle.style.transform = `translate(calc(${px * 280}px - 0.5rem), calc(${py * 280}px - 0.5rem))`;
