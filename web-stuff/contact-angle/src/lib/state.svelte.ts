@@ -1,5 +1,17 @@
 import { innerWidth, innerHeight } from 'svelte/reactivity/window';
 
+export enum interactionModes {
+	PlaceDrop,
+	PlaceLine,
+	DeleteDrop
+}
+
+export enum checkStatuses {
+    NotChecked,
+    Failed,
+    Passed
+}
+
 export const rem: number = parseFloat(getComputedStyle(document.documentElement).fontSize);
 
 export class Drop {
@@ -7,6 +19,7 @@ export class Drop {
 	constructor(pos = [0, 0]) {
 		this.pos = pos;
 	}
+    feasibilityPassed = $state(checkStatuses.NotChecked);
 }
 
 const canvasSize = $derived.by(() => {
@@ -87,21 +100,10 @@ export class DropHistory {
 	}
 }
 
-export enum interactionModes {
-	PlaceDrop,
-	PlaceLine,
-	DeleteDrop
-}
-
-export enum checkStatuses {
-    NotChecked,
-    Failed,
-    Passed
-}
-
 export const userState = $state({
 	interactionMode: interactionModes.PlaceDrop,
     checkStatus: checkStatuses.NotChecked,
 	dropHistory: new DropHistory(64),
-    wafer: new Wafer()
+    wafer: new Wafer(),
+    dropChangeCallback: undefined as Function|undefined,
 });

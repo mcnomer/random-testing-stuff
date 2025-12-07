@@ -64,16 +64,19 @@
       case interactionModes.PlaceDrop: {
         placeDrop(scaledPos);
         userState.dropHistory.add(wafer.drops);
+        if (userState.dropChangeCallback) userState.dropChangeCallback();
         break;
       };
       case interactionModes.PlaceLine: {
         placeLine(scaledPos, -wafer.rot);
         userState.dropHistory.add(wafer.drops);
+        if (userState.dropChangeCallback) userState.dropChangeCallback();
         break;
       };
       case interactionModes.DeleteDrop: {
         if (deleteDrop(scaledPos)) {
           userState.dropHistory.add(wafer.drops);
+          if (userState.dropChangeCallback) userState.dropChangeCallback();
         }
         break;
       };
@@ -83,10 +86,19 @@
   }
 
   function checkFeasibility() {
+    console.time("check");
+    userState.checkStatus = checkStatuses.NotChecked;
     let points = wafer.drops.map(d => [d.pos[0], d.pos[1]]);
-    check(points);
-    userState.checkStatus = checkStatuses.Passed;
+    let passed = check(points);
+    for (let i = 0; i < points.length; i++) {
+      wafer.drops[i].feasibilityPassed = (passed[i]) ? checkStatuses.Passed : checkStatuses.Failed;
+    }
+    let passedAll = passed.every(e => e);
+    userState.checkStatus = (passedAll) ? checkStatuses.Passed : checkStatuses.Failed;
+    console.timeEnd("check");
   }
+  userState.dropChangeCallback = checkFeasibility;
+3
 </script>
 
 <Stage width={canvasSize} height={canvasSize} >
@@ -97,7 +109,7 @@
         <Circle radius={waferCanvasRadius} stroke="#333" strokeWidth={5}></Circle>
         <Arc x={wafer.notchPos[0]} y={wafer.notchPos[1]} angle={180-10} innerRadius={0} outerRadius={10} rotation={180+5} fill="#000" stroke="#333" strokeWidth={5}></Arc>
         {#each wafer.drops as drop}
-          <Circle x={drop.pos[0] * wafer.scale} y={drop.pos[1] * wafer.scale} radius={2} fill="#7cf"></Circle>
+          <Circle x={drop.pos[0] * wafer.scale} y={drop.pos[1] * wafer.scale} radius={2} fill={(drop.feasibilityPassed === checkStatuses.Failed) ? "#f00" : "#7cf"}></Circle>
         {/each}
       </Group>
     </Group>
@@ -115,6 +127,6 @@
   <button onclick={() => wafer.rot -= 15}>↪️</button>
 </div>
 <div class="toolbar">
-  <button onclick={checkFeasibility}>Check</button>
+  <!-- <button onclick={checkFeasibility}>Check</button> -->
   <p>Result: {(userState.checkStatus === checkStatuses.NotChecked) ? "❔" : ((userState.checkStatus === checkStatuses.Passed) ? "✔️" : "❌")}</p>
 </div>

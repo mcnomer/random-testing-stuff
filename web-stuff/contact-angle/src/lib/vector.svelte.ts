@@ -11,6 +11,12 @@ export function rotateVec2(vec: number[], theta: number) {
     return [x, y];
 }
 
+export function funkyRotVec2(vec: number[], sinTheta: number, cosTheta: number) {
+    let x = vec[0] * cosTheta - vec[1] * sinTheta;
+    let y = vec[0] * sinTheta + vec[1] * cosTheta;
+    return [x, y];
+}
+
 const lerp1D = (x:number, y:number, a:number) => x * (1 - a) + y * a;
 export function lerpVec2(from: number[], to: number[], a: number) {
     let x = lerp1D(from[0], to[0], a);
