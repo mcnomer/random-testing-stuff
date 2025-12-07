@@ -3,7 +3,7 @@
   import WaferDisplay from './lib/WaferDisplay.svelte';
   import Toolbar from './lib/Toolbar.svelte';
   import { rem, userState, getCanvasSize } from './lib/state.svelte';
-    import { rotateVec2 } from './lib/vector.svelte';
+  import { rotateVec2 } from './lib/vector.svelte';
   
   const canvasSize = $derived.by(getCanvasSize);
 
@@ -20,7 +20,7 @@
   <h1>Feasibility Checker</h1>
   <Toolbar></Toolbar>
   <WaferDisplay canvasSize={canvasSize} rem={rem}></WaferDisplay>
-  <button class="copy-coords" onclick={copyCoords}>Copy Coords</button>
+  <button title="Copy Coords to Clipboard" class="copy-coords" onclick={copyCoords}>Copy Coords</button>
 </main>
 
 <style>

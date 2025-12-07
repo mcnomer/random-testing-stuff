@@ -4,16 +4,21 @@ const rotationStep = 5;
 
 function isShotUsable(points: number[][], targetIdx:number, centreTolerance: number, cameraViewWidth: number, offsetY: number, sinTheta: number, cosTheta: number) {
     const targetY = points[targetIdx][0] * sinTheta + points[targetIdx][1] * cosTheta + offsetY;
-    if (targetY > centreTolerance || targetY < -centreTolerance) return false;
+    if (targetY > centreTolerance || targetY < -centreTolerance) return false; // first make sure that target is actually centred
 
     let numPointsInView = 0;
     for (let i = 0; i < points.length; i++) {
         const [px, py] = points[i];
         const y = px * sinTheta + py * cosTheta + offsetY;
         if (y < cameraViewWidth && y > -cameraViewWidth) numPointsInView++;
-        if (numPointsInView > 1) return false;
+        if (numPointsInView > 1) return false; // quit early as soon as more than one drop is in view of the camera
     }
-    return (numPointsInView === 1);
+    if (numPointsInView === 1) {
+        const [px, py] = points[targetIdx];
+        const x = px * cosTheta - py * sinTheta;
+        if (x < userState.wafer.radius) return true; // make sure wafer can move on x-axis to focus traget drop
+    }
+    return false;
 }
 
 function checkPoint(points: number[][], targetIdx:number, centreTolerance: number, cameraViewWidth: number, yStep: number) {

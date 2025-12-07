@@ -5,6 +5,11 @@
   import { lerpVec2, rotateVec2 } from './vector.svelte';
   import { check } from './feasibility.svelte';
   import RangeSlider from 'svelte-range-slider-pips'
+  import IcRoundRotateLeft from '~icons/ic/round-rotate-left';
+  import IcRoundRotateRight from '~icons/ic/round-rotate-right';
+  import IcRoundDelete from '~icons/ic/round-delete';
+  import IcRoundMyLocation from '~icons/ic/round-my-location';
+
 
   let { canvasSize, rem } = $props();
   let centreX = $derived(canvasSize / 2);
@@ -100,6 +105,7 @@
   }
 
   function checkFeasibility() {
+    // console.time("check");
     userState.checkStatus = checkStatuses.NotChecked;
     let points = wafer.drops.map(d => [d.pos[0], d.pos[1]]);
     
@@ -117,6 +123,7 @@
     }
     let passedAll = passed.every(e => e);
     userState.checkStatus = (passedAll) ? checkStatuses.Passed : checkStatuses.Failed;
+    // console.timeEnd("check");
   }
   userState.historyUpdateCallback = checkFeasibility;
 
@@ -188,18 +195,26 @@
   <button onclick={() => wafer.pos[0] += rem}>➡️</button>
 </div> -->
 <div class="toolbar rotation-toolbar">
-  <button onclick={() => wafer.rot += 15} onmouseenter={() => mouseOverRotButtons = true} onmouseleave={() => mouseOverRotButtons = false}>↩️</button>
-  <button onclick={() => wafer.rot -= 15} onmouseenter={() => mouseOverRotButtons = true} onmouseleave={() => mouseOverRotButtons = false}>↪️</button>
+  <button title="Rotate Anticlockwise" onclick={() => wafer.rot -= 15} onmouseenter={() => mouseOverRotButtons = true} onmouseleave={() => mouseOverRotButtons = false}>
+    <IcRoundRotateLeft></IcRoundRotateLeft>
+  </button>
+  <button title="Rotate Clockwise" onclick={() => wafer.rot += 15} onmouseenter={() => mouseOverRotButtons = true} onmouseleave={() => mouseOverRotButtons = false}>
+    <IcRoundRotateRight></IcRoundRotateRight>
+  </button>
   
-  <button class="shift-left" onclick={() => {
+  <button title="Clear Drops" class="shift-left" onclick={() => {
     wafer.drops = [];
     userState.dropHistory.add(wafer.drops);
     if (userState.historyUpdateCallback) userState.historyUpdateCallback();
-  }}>Clear</button>
-  <button class="shift-right" onclick={() => {
+  }}>
+    <IcRoundDelete></IcRoundDelete>
+  </button>
+  <button title="Recentre Wafer" class="shift-right" onclick={() => {
     wafer.pos = [0, 0];
     wafer.rot = 0;
-  }}>📍</button>
+  }}>
+    <IcRoundMyLocation></IcRoundMyLocation>  
+</button>
 </div>
 <div class="toolbar">
   <!-- <button onclick={checkFeasibility}>Check</button> -->
