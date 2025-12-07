@@ -22,12 +22,17 @@ export class Drop {
     feasibilityPassed = $state(checkStatuses.NotChecked);
 }
 
-const canvasSize = $derived.by(() => {
+export function getCanvasSize() {
     const width = innerWidth.current ?? 0;
     const height = innerHeight.current ?? 0;
     const minScreenSize = Math.min(width, height);
-    return Math.max(Math.min(minScreenSize - 6*rem, Math.max(width, height)*.4), 0);
-});
+    const aspect = Math.max(Math.min(width / height, 1), 0);
+    const portraitSize = minScreenSize - 6*rem;
+    const landscapeSize = Math.min(width, height) * 0.5;
+    return Math.max(0, portraitSize * (1 - aspect) + landscapeSize * aspect);
+}
+
+const canvasSize = $derived.by(getCanvasSize);
 let waferCanvasDiameter = $derived(canvasSize - 6*rem);
 let waferCanvasRadius = $derived(waferCanvasDiameter / 2);
 

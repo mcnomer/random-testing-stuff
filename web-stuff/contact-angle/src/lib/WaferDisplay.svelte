@@ -133,6 +133,11 @@
     if (pos) mouseHoverPos = pos;
     mouseOverWafer = false;
   }
+
+  let mouseOverRotButtons = $state(false);
+  function mod(n: number, m: number) {
+    return ((n % m) + m) % m;
+  }
 </script>
 
 <article class="wafer-display">
@@ -159,11 +164,12 @@
           </Group>
         </Group>
         <Text x={0} y={canvasSize-rem} text={
-          (!mouseOverWafer ) ? "" : (
+          (mouseOverWafer ) ? (
             (userState.interactionMode === interactionModes.PlaceDrop) ? `(${rotatedMouseMoverPos[0].toFixed(2)}, ${rotatedMouseMoverPos[1].toFixed(2)})` : (
               (userState.interactionMode === interactionModes.PlaceLine) ? `${rotatedMouseMoverPos[0].toFixed(2)}` : ""
             )
-          )} fontSize={rem} align="right" verticalAlign="bottom" offsetX={rem} offsetY={rem} width={canvasSize} height={rem} fill={userState.colors.text}>
+          ) : (mouseOverRotButtons) ? `${mod(-wafer.rot, 360)}°` : ""
+          } fontSize={rem} align="right" verticalAlign="bottom" offsetX={rem} offsetY={rem} width={canvasSize} height={rem} fill={userState.colors.text}>
         </Text>
       </Layer>
     </Stage>
@@ -180,8 +186,8 @@
   <button onclick={() => wafer.pos[0] += rem}>➡️</button>
 </div> -->
 <div class="toolbar rotation-toolbar">
-  <button onclick={() => wafer.rot += 15}>↩️</button>
-  <button onclick={() => wafer.rot -= 15}>↪️</button>
+  <button onclick={() => wafer.rot += 15} onmouseenter={() => mouseOverRotButtons = true} onmouseleave={() => mouseOverRotButtons = false}>↩️</button>
+  <button onclick={() => wafer.rot -= 15} onmouseenter={() => mouseOverRotButtons = true} onmouseleave={() => mouseOverRotButtons = false}>↪️</button>
   
   <button class="shift-left" onclick={() => {
     wafer.drops = [];
