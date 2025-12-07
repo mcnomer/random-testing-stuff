@@ -103,7 +103,7 @@
     userState.checkStatus = checkStatuses.NotChecked;
     let points = wafer.drops.map(d => [d.pos[0], d.pos[1]]);
     
-    if (points.length > 200) {
+    if (points.length > 400) {
       userState.checkStatus = checkStatuses.NotChecked;
       for (let d of wafer.drops) {
         d.feasibilityPassed = checkStatuses.NotChecked;
@@ -150,7 +150,9 @@
             <Circle radius={waferCanvasRadius} stroke={userState.colors.stroke} fill={userState.colors.background} strokeWidth={5}></Circle>
             <Arc x={0} y={waferCanvasRadius} angle={180-10} innerRadius={0} outerRadius={10} rotation={180+5} fill={userState.colors.background} stroke={userState.colors.stroke} strokeWidth={5}></Arc>
             {#each wafer.drops as drop}
-              <Circle x={drop.pos[0] * wafer.scale} y={drop.pos[1] * wafer.scale} radius={2} fill={(drop.feasibilityPassed === checkStatuses.Failed) ? "#f00" : "#7cf"}></Circle>
+              <Circle x={drop.pos[0] * wafer.scale} y={drop.pos[1] * wafer.scale} radius={2} fill={(drop.feasibilityPassed === checkStatuses.Failed) ? "#f00" : (
+                (drop.feasibilityPassed === checkStatuses.Passed) ? "#7cf" : userState.colors.stroke
+              )}></Circle>
             {/each}
             {#if (mouseOverWafer)}
               {#if (userState.interactionMode === interactionModes.PlaceDrop)}
