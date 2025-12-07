@@ -1,5 +1,4 @@
 import { userState } from "./state.svelte";
-import { funkyRotVec2, rotateVec2 } from "./vector.svelte";
 
 const rotationStep = 5;
 

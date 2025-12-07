@@ -21,6 +21,7 @@
   "dependencies": {
     "konva": "^10.0.12",
     "mathjs": "^15.1.0",
-    "svelte-konva": "^1.0.1"
+    "svelte-konva": "^1.0.1",
+    "svelte-range-slider-pips": "^4.1.0"
   }
 }

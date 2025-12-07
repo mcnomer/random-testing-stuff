@@ -105,5 +105,12 @@ export const userState = $state({
     checkStatus: checkStatuses.NotChecked,
 	dropHistory: new DropHistory(64),
     wafer: new Wafer(),
-    dropChangeCallback: undefined as Function|undefined,
+    historyUpdateCallback: undefined as Function|undefined,
+    settings: {
+        numLinePts: 10,
+        DropDeleteDistanceThreshold: 5,
+        WaferUnusedEdgeThickness: 10,
+        centreTolerance: 2,
+        cameraViewWidth: 10,
+    }
 });
