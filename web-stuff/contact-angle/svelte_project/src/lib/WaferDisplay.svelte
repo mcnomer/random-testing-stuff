@@ -193,6 +193,7 @@
   
   <button class="shift-left" onclick={() => {
     wafer.drops = [];
+    userState.dropHistory.add(wafer.drops);
     if (userState.historyUpdateCallback) userState.historyUpdateCallback();
   }}>Clear</button>
   <button class="shift-right" onclick={() => {

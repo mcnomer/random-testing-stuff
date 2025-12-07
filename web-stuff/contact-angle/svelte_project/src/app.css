@@ -122,8 +122,9 @@ button:hover:not(:disabled):not(.selected),
 }
 
 
-button.selected {
-  border-color: #aaa;
+button.selected,
+button:active {
+  border-color: #aaa !important;
 }
 
 button:focus,
