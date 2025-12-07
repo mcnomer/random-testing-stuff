@@ -54,7 +54,7 @@
 
     const pos = group.getRelativePointerPosition();
     if (!pos) return;
-    const offsetPos = [pos.x - wafer.pos[0], pos.y - wafer.pos[1]];
+    const offsetPos = [pos.x - wafer.pos[0] * wafer.scale, pos.y - wafer.pos[1] * wafer.scale];
     const rotatedPos = rotateVec2(offsetPos, -wafer.rot);
     const scaledPos = [rotatedPos[0]/wafer.scale, rotatedPos[1]/wafer.scale];
     switch (userState.interactionMode) {
