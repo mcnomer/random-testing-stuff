@@ -1,8 +1,9 @@
 <svelte:options runes={true} />
 <script lang="ts">
   import { Stage, Layer, Rect, Circle, Arc, Group, type KonvaMouseEvent } from 'svelte-konva';
-  import { userState, interactionModes, Drop } from './state.svelte';
+  import { userState, interactionModes, Drop, checkStatuses } from './state.svelte';
   import { lerpVec2, rotateVec2 } from './vector.svelte';
+    import { check } from './feasibility.svelte';
 
   const DropDeleteDistanceThreshold = 5;
   const NumPointsInLine = 10;
@@ -14,24 +15,11 @@
   let waferCanvasDiameter = $derived(canvasSize - 6*rem);
   let waferCanvasRadius = $derived(waferCanvasDiameter / 2);
 
-  window.DropHistory = userState.dropHistory;
-
-  class Wafer {
-    pos = $state([0, 0]);
-    rot = $state(0);
-    readonly diameter = 200;
-    readonly radius = this.diameter / 2;
-    readonly scale = $derived(waferCanvasRadius / this.radius);
-    readonly notchPos = $derived([0, this.radius * this.scale]);
-    drops:Drop[] = $state([]);
-  }
+  const wafer = userState.wafer;
   
-  const wafer = $state(new Wafer());
-
   function placeDrop(pos=[0, 0]) {
     if (Math.hypot(pos[0], pos[1]) > wafer.radius) return;
     wafer.drops.push(new Drop(pos));
-    userState.dropHistory.add(wafer.drops);
   }
 
   function placeLine(pos=[0, 0], angle=0) {
@@ -50,17 +38,17 @@
       let a = i / (NumPointsInLine - 1); // fence post problem - 10 dots, 9 spaces
       placeDrop(lerpVec2(from, to, a));
     }
-    userState.dropHistory.add(wafer.drops);
   }
 
-  function deleteDrop(pos=[0, 0]) {
+  function deleteDrop(pos=[0, 0]): boolean {
     const distances = wafer.drops.map(d => Math.hypot(d.pos[0] - pos[0], d.pos[1] - pos[1]));
     const indices = Array.from(distances.keys());
     indices.sort((a, b) => distances[a] - distances[b]);
     if (distances[indices[0]] < DropDeleteDistanceThreshold) {
       wafer.drops.splice(indices[0], 1) // remove drop closest to clicked pos
+      return true;
     }
-    userState.dropHistory.add(wafer.drops);
+    return false; // no drop removed
   }
 
   function handleClick(e: KonvaMouseEvent) {
@@ -75,21 +63,30 @@
     switch (userState.interactionMode) {
       case interactionModes.PlaceDrop: {
         placeDrop(scaledPos);
+        userState.dropHistory.add(wafer.drops);
         break;
       };
       case interactionModes.PlaceLine: {
         placeLine(scaledPos, -wafer.rot);
+        userState.dropHistory.add(wafer.drops);
         break;
       };
       case interactionModes.DeleteDrop: {
-        deleteDrop(scaledPos);
+        if (deleteDrop(scaledPos)) {
+          userState.dropHistory.add(wafer.drops);
+        }
         break;
       };
       default:
         break;
     }
   }
-  window.wafer = wafer;
+
+  function checkFeasibility() {
+    let points = wafer.drops.map(d => [d.pos[0], d.pos[1]]);
+    check(points);
+    userState.checkStatus = checkStatuses.Passed;
+  }
 </script>
 
 <Stage width={canvasSize} height={canvasSize} >
@@ -116,4 +113,8 @@
 <div class="toolbar rotation-toolbar">
   <button onclick={() => wafer.rot += 15}>↩️</button>
   <button onclick={() => wafer.rot -= 15}>↪️</button>
+</div>
+<div class="toolbar">
+  <button onclick={checkFeasibility}>Check</button>
+  <p>Result: {(userState.checkStatus === checkStatuses.NotChecked) ? "❔" : ((userState.checkStatus === checkStatuses.Passed) ? "✔️" : "❌")}</p>
 </div>

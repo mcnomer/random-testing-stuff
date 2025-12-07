@@ -63,7 +63,7 @@ button {
   transition: border-color 0.25s;
 }
 
-button:hover {
+button:hover:not(:disabled) {
   border-color: #646cff;
 }
 button:focus,
@@ -71,6 +71,11 @@ button:focus-visible {
   /* outline: 4px auto -webkit-focus-ring-color; */
   outline: none;
 }
+button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
 /* 
 @media (prefers-color-scheme: light) {
   :root {

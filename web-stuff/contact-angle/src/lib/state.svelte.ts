@@ -1,3 +1,5 @@
+import { innerWidth, innerHeight } from 'svelte/reactivity/window';
+
 export const rem: number = parseFloat(getComputedStyle(document.documentElement).fontSize);
 
 export class Drop {
@@ -7,31 +9,24 @@ export class Drop {
 	}
 }
 
-// export class Queue<T> extends Array<T> {
-//     constructor(private readonly maxLength: number, data?:T[]) {
-//         super();
-		
-// 		if (data) {
-// 			if (data.length > maxLength) {
-// 				const startIdx = data.length - maxLength;
-// 				super.push(...data.slice(startIdx));
-// 			} else {
-// 				super.push(...data);
-// 			}
-// 		}
-//     }
+const canvasSize = $derived.by(() => {
+    const width = innerWidth.current ?? 0;
+    const height = innerHeight.current ?? 0;
+    const minScreenSize = Math.min(width, height);
+    return minScreenSize * 0.5 - 2*rem;
+});
+let waferCanvasDiameter = $derived(canvasSize - 6*rem);
+let waferCanvasRadius = $derived(waferCanvasDiameter / 2);
 
-//     push(...items:T[]): number {
-//         while (this.length + items.length > this.maxLength) {
-//             this.shift();
-//         }
-//         return super.push(...items);
-//     }
-
-// 	fromArray(arr:T[]) {
-// 		return new Queue<T>(this.maxLength, arr);
-// 	}
-// }
+export class Wafer {
+	pos = $state([0, 0]);
+	rot = $state(0);
+	readonly diameter = 200;
+	readonly radius = this.diameter / 2;
+	readonly scale = $derived(waferCanvasRadius / this.radius);
+	readonly notchPos = $derived([0, this.radius * this.scale]);
+	drops:Drop[] = $state([]);
+}
 
 export class Queue<T> {
 	data: T[];
@@ -60,34 +55,34 @@ export class Queue<T> {
 	}
 }
 
-export class HistoryQueue<T> {
-	queue: Queue<T>;
+export class DropHistory {
+	queue: Queue<Drop[]>;
 	index: number;
-	private maxLength: number;
-	constructor(maxLength: number, managedValue?:T) {
+	maxLength: number;
+	constructor(maxLength: number) {
 		this.maxLength = maxLength;
 		this.queue = new Queue(maxLength);
-		this.index = -1;
+        this.queue.push([]);
+		this.index = $state(0);
 	}
 
-	undo(): T {
-		if (this.index > 0) this.index--;
+	undo(): Drop[] {
+        if (this.index > 0) this.index--;
 		return this.queue.data[this.index];
 	}
-
-	redo(): T {
-		if (this.index < this.queue.length - 1) this.index++;
+    
+	redo(): Drop[] {
+        if (this.index < this.queue.length - 1) this.index++;
 		return this.queue.data[this.index];
 	}
-
-	add(item: T): number {
-		if (this.index < this.queue.length - 1) {
-			const newHistory = this.queue.data.slice(0, this.index+1);
+    
+	add(item: Drop[]): number {
+        if (this.index < this.queue.length - 1) {
+            const newHistory = this.queue.data.slice(0, this.index+1);
 			this.queue = new Queue(this.maxLength, newHistory);
-			console.log("rebuilding");
 		};
-		this.queue.push(item);
-		this.index++;
+		this.queue.push([...item]);
+		if (this.index < this.maxLength - 1) this.index++;
 		return this.index;
 	}
 }
@@ -98,25 +93,15 @@ export enum interactionModes {
 	DeleteDrop
 }
 
+export enum checkStatuses {
+    NotChecked,
+    Failed,
+    Passed
+}
+
 export const userState = $state({
 	interactionMode: interactionModes.PlaceDrop,
-	dropHistory: new HistoryQueue(10)
+    checkStatus: checkStatuses.NotChecked,
+	dropHistory: new DropHistory(64),
+    wafer: new Wafer()
 });
-
-// export function dropHistoryUndo() {
-// 	if (userState.dropHistory.index > 0) userState.dropHistory.index--;
-// 	return userState.dropHistory.queue[userState.dropHistory.index];
-// }
-// export function dropHistoryRedo() {
-// 	if (userState.dropHistory.index < userState.dropHistory.queue.length - 1) userState.dropHistory.index++;
-// 	return userState.dropHistory.queue[userState.dropHistory.index];
-// }
-// export function dropHistoryAdd(item: Drop[]) {
-// 	if (userState.dropHistory.index < userState.dropHistory.queue.length - 1) {
-// 		userState.dropHistory.queue = new Queue(userState.dropHistory.queue.length, userState.dropHistory.queue.slice(0, userState.dropHistory.index+1));
-// 		console.log("rebuilding");
-// 	};
-// 	userState.dropHistory.queue.push(item);
-// 	userState.dropHistory.index++;
-// 	return userState.dropHistory.index;
-// }
