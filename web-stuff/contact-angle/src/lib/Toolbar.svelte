@@ -12,7 +12,8 @@
         userState.wafer.drops = dropHistory.redo();
         if (userState.historyUpdateCallback) userState.historyUpdateCallback();
     }
-    window?.addEventListener("keydown", e => {
+    document.addEventListener("keydown", e => {
+        if (e.shiftKey) userState.keyPresses.shift = true;
         if (e.key === "Tab" || e.key === "Enter") {
             if (!userState.settings.numLinePts) userState.settings.numLinePts = 10;
             userState.settings.numLinePts = Math.round(userState.settings.numLinePts);
@@ -27,6 +28,9 @@
             undoHandler();
         }
     });
+    document.addEventListener("keyup", e => {
+        if (!e.shiftKey) userState.keyPresses.shift = false;
+    })
 </script>
 
 <div class="toolbar">

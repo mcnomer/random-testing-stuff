@@ -26,7 +26,7 @@ const canvasSize = $derived.by(() => {
     const width = innerWidth.current ?? 0;
     const height = innerHeight.current ?? 0;
     const minScreenSize = Math.min(width, height);
-    return minScreenSize * 0.5 - 2*rem;
+    return Math.max(Math.min(minScreenSize - 6*rem, Math.max(width, height)*.4), 0);
 });
 let waferCanvasDiameter = $derived(canvasSize - 6*rem);
 let waferCanvasRadius = $derived(waferCanvasDiameter / 2);
@@ -34,10 +34,9 @@ let waferCanvasRadius = $derived(waferCanvasDiameter / 2);
 export class Wafer {
 	pos = $state([0, 0]);
 	rot = $state(0);
-	readonly diameter = 200;
-	readonly radius = this.diameter / 2;
-	readonly scale = $derived(waferCanvasRadius / this.radius);
-	readonly notchPos = $derived([0, this.radius * this.scale]);
+    diameter = 200;
+    radius = this.diameter / 2;
+	scale = $derived(waferCanvasRadius / this.radius);
 	drops:Drop[] = $state([]);
 }
 
@@ -112,5 +111,13 @@ export const userState = $state({
         WaferUnusedEdgeThickness: 10,
         centreTolerance: 2,
         cameraViewWidth: 10,
+    },
+    colors: {
+        background: "#111",
+        stroke: "#444",
+        text: "#ccc"
+    },
+    keyPresses: {
+        shift: false,
     }
 });
