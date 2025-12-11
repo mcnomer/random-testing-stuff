@@ -17,6 +17,14 @@
   let waferCanvasDiameter = $derived(canvasSize - 6*rem);
   let waferCanvasRadius = $derived(waferCanvasDiameter / 2);
   const wafer = userState.wafer;
+  $effect(() => {
+    wafer.diameter = Math.max(2, userState.settings.waferDiameter);
+  });
+
+  let snapStepSize = $derived.by(() => {
+    if (userState.keyPresses.shift && wafer.diameter > 40) return wafer.diameter / 40; 
+    return (wafer.diameter % 2 === 0) ? 1 : 0.5;
+  });
   
   function placeDrop(pos=[0, 0]) {
     if (Math.hypot(pos[0], pos[1]) > wafer.radius) return;
@@ -24,7 +32,7 @@
   }
 
   function genLinePts(pos=[0, 0], angle=0): number[][] {
-    if (userState.settings.numLinePts < 2) return []; // not enough points to work
+    if (userState.tools.numLinePts < 2) return []; // not enough points to work
     let theta = angle * Math.PI/180; // deg2rad
     theta += Math.PI / 2; // offset 90 degrees so line is vertical
     pos = [rotateVec2(pos, -angle)[0], 0]; // project to x-axis so it's in the centre of the wafer
@@ -38,8 +46,8 @@
     let to = [pos[0] + offset[0], pos[1] + offset[1]];
 
     let linePts = [];
-    for (let i = 0; i < userState.settings.numLinePts; i++) {
-      let a = i / (userState.settings.numLinePts - 1); // fence post problem - 10 dots, 9 spaces
+    for (let i = 0; i < userState.tools.numLinePts; i++) {
+      let a = i / (userState.tools.numLinePts - 1); // fence post problem - 10 dots, 9 spaces
       linePts.push(lerpVec2(from, to, a));
     }
     return linePts;
@@ -74,7 +82,7 @@
     let scaledPos = [rotatedPos[0]/wafer.scale, rotatedPos[1]/wafer.scale];
 
     if (!userState.keyPresses.shift) return scaledPos;
-    return [Math.round(scaledPos[0] / 5) * 5, Math.round(scaledPos[1] / 5) * 5];
+    return [Math.round(scaledPos[0] / snapStepSize) * snapStepSize, Math.round(scaledPos[1] / snapStepSize) * snapStepSize];
   }
 
   function handleClick(e: KonvaMouseEvent) {
@@ -182,9 +190,9 @@
         </Text>
       </Layer>
     </Stage>
-    <RangeSlider class="slider vertical-slider" bind:value={wafer.pos[1]} min={-wafer.radius} max={wafer.radius} reversed float vertical style={`height: ${waferCanvasDiameter}px`} step={(userState.keyPresses.shift) ? 5 : 1}  pips={userState.keyPresses.shift} pipstep={2}></RangeSlider>
+    <RangeSlider class="slider vertical-slider" bind:value={wafer.pos[1]} min={-wafer.radius} max={wafer.radius} reversed float vertical style={`height: ${waferCanvasDiameter}px`} step={snapStepSize}  pips={userState.keyPresses.shift} pipstep={2}></RangeSlider>
   </div>
-  <RangeSlider class="slider horizontal-slider" bind:value={wafer.pos[0]} min={-wafer.radius} max={wafer.radius} float style={`width: ${waferCanvasDiameter}px`} step={(userState.keyPresses.shift) ? 5 : 1} pips={userState.keyPresses.shift} pipstep={2}></RangeSlider>
+  <RangeSlider class="slider horizontal-slider" bind:value={wafer.pos[0]} min={-wafer.radius} max={wafer.radius} float style={`width: ${waferCanvasDiameter}px`} step={snapStepSize} pips={userState.keyPresses.shift} pipstep={2}></RangeSlider>
 </article>
 
 

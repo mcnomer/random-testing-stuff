@@ -39,8 +39,8 @@ let waferCanvasRadius = $derived(waferCanvasDiameter / 2);
 export class Wafer {
 	pos = $state([0, 0]);
 	rot = $state(0);
-    diameter = 200;
-    radius = this.diameter / 2;
+    diameter = $state(200);
+    radius = $derived(this.diameter / 2);
 	scale = $derived(waferCanvasRadius / this.radius);
 	drops:Drop[] = $state([]);
 }
@@ -110,12 +110,25 @@ export const userState = $state({
 	dropHistory: new DropHistory(64),
     wafer: new Wafer(),
     historyUpdateCallback: undefined as Function|undefined,
+	tools: {
+		numLinePts: 10,
+	},
     settings: {
-        numLinePts: 10,
         DropDeleteDistanceThreshold: 5,
         WaferUnusedEdgeThickness: 10,
-        centreTolerance: 2,
-        cameraViewWidth: 10,
+        centreTolerance: 1,
+        cameraViewWidth: 20,
+		waferDiameter: 200,
+		stage: {
+			xRange: {
+				min: -100,
+				max: 100
+			},
+			yRange: {
+				min: -100,
+				max: 100
+			},
+		}
     },
     colors: {
         background: "#111",
@@ -126,3 +139,8 @@ export const userState = $state({
         shift: false,
     }
 });
+
+let storedSettings = localStorage?.getItem("userSettings");
+if (storedSettings) {
+	userState.settings = JSON.parse(storedSettings);
+}

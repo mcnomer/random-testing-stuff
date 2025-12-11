@@ -10,13 +10,23 @@ function isShotUsable(points: number[][], targetIdx:number, centreTolerance: num
     for (let i = 0; i < points.length; i++) {
         const [px, py] = points[i];
         const y = px * sinTheta + py * cosTheta + offsetY;
-        if (y < cameraViewWidth && y > -cameraViewWidth) numPointsInView++;
+        if (y < (cameraViewWidth / 2) && y > -(cameraViewWidth / 2)) numPointsInView++;
         if (numPointsInView > 1) return false; // quit early as soon as more than one drop is in view of the camera
     }
     if (numPointsInView === 1) {
         const [px, py] = points[targetIdx];
         const x = px * cosTheta - py * sinTheta;
-        if (x < userState.wafer.radius) return true; // make sure wafer can move on x-axis to focus traget drop
+        // if (x < userState.wafer.radius) return true; // make sure wafer can move on x-axis to focus traget drop
+        // extra temp stuff for tool range of movement
+        const y = px * sinTheta + py * cosTheta;
+        if (
+            userState.settings.stage.xRange.min < x &&
+            x < userState.settings.stage.xRange.max &&
+            userState.settings.stage.yRange.min < y &&
+            y < userState.settings.stage.yRange.max
+        ) {
+            return true;
+        }
     }
     return false;
 }
