@@ -5,14 +5,18 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="./main.css" />
         <title>View Transitions Demo</title>
+        <script src="./app.js" async></script>
     </head>
     <body>
-        <main class="player">
+        <div class="corner-container">
+            <button class="corner-toggle">Toggle</button>
+        </div>
+        <main class="player player-tabopen player-lyricsopen">
             <div class="top-controls">
-                <button class="icon top-button player-close">
+                <button class="icon-button top-button player-close">
                     <img src="./icons/chevron-down.svg" alt="Minimise Player" />
                 </button>
-                <button class="icon top-button player-settings">
+                <button class="icon-button top-button player-settings">
                     <img src="./icons/more-vert.svg" alt="Settings" />
                 </button>
             </div>
@@ -35,50 +39,58 @@
                 </div>
             </div>
             <div class="media-controls">
-                <button class="icon media-button">
+                <button class="icon-button media-button prev-track">
                     <img src="./icons/skip-prev.svg" alt="Previous Track" />
                 </button>
-                <button class="icon media-button">
+                <button class="icon-button media-button rewind">
                     <img src="./icons/rewind-10.svg" alt="Rewind 10 seconds" />
                 </button>
-                <button class="icon media-button pause">
+                <button class="icon-button media-button pause">
                     <img src="./icons/pause.svg" alt="Pause" />
                 </button>
-                <button class="icon media-button">
+                <button class="icon-button media-button fastforward">
                     <img
                         src="./icons/forward-10.svg"
                         alt="Forward 10 seconds"
                     />
                 </button>
-                <button class="icon media-button">
+                <button class="icon-button media-button next-track">
                     <img src="./icons/skip-next.svg" alt="Next Track" />
                 </button>
             </div>
             <div class="tabs">
-                <div class="tabs-headings">
-                    <span class="tab-name">Up Next</span>
-                    <span class="tab-name">Lyrics</span>
-                    <span class="tab-name">Credits</span>
-                </div>
-                <div class="tab-content" hidden>
-                    <ul>
-                        <li class="track">
-                            <img src="" alt="" class="album-cover" />
-                            <h3>Track Name</h3>
-                            <span>Track Artist</span>
-                        </li>
-                        <li class="track">
-                            <img src="" alt="" class="album-cover" />
-                            <h3>Track Name</h3>
-                            <span>Track Artist</span>
-                        </li>
-                        <li class="track">
-                            <img src="" alt="" class="album-cover" />
-                            <h3>Track Name</h3>
-                            <span>Track Artist</span>
-                        </li>
-                    </ul>
-                </div>
+                <button class="tab-name tab-up-next">Up Next</button>
+                <button class="tab-name tab-lyrics">Lyrics</button>
+                <button class="tab-name tab-credits">Credits</button>
+            </div>
+            <div class="tab-content up-next-container">
+                <ul>
+                    <li class="track">
+                        <img src="" alt="" class="album-cover" />
+                        <h3>Track Name</h3>
+                        <span>Track Artist</span>
+                    </li>
+                    <li class="track">
+                        <img src="" alt="" class="album-cover" />
+                        <h3>Track Name</h3>
+                        <span>Track Artist</span>
+                    </li>
+                    <li class="track">
+                        <img src="" alt="" class="album-cover" />
+                        <h3>Track Name</h3>
+                        <span>Track Artist</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="tab-content lyrics-container">
+                <span class="highlighted">Lorem ipsum dolor sit amet.</span>
+                <span>Cum tempora perspiciatis explicabo quas?</span>
+                <span>Cupiditate illo molestias inventore possimus.</span>
+                <span>Dolorem magnam minus suscipit illo.</span>
+                <span>Nisi perspiciatis ipsa iste excepturi!</span>
+                <span>Deserunt architecto quod praesentium sunt.</span>
+                <span>Adipisci, beatae itaque! Voluptate, facilis.</span>
             </div>
         </main>
     </body>

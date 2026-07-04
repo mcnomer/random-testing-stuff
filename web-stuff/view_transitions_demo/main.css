@@ -5,8 +5,10 @@
     box-sizing: border-box;
 }
 
-a {
+a,
+button {
     color: inherit;
+    font: inherit;
 }
 
 :root {
@@ -17,6 +19,8 @@ a {
     --primary: white;
     --secondary: #aaa;
     --font: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+
+    --view-transition-duration: 0.3s;
 }
 
 body {
@@ -28,7 +32,19 @@ body {
     background: #333;
 }
 
-main.player {
+.corner-container {
+    position: fixed;
+    top: 0;
+    right: 0;
+}
+
+.corner-container > .corner-toggle {
+    width: 4rem;
+    height: 2rem;
+    margin: 1rem;
+}
+
+.player {
     width: 40vmin;
     height: 80vmin;
     display: grid;
@@ -39,7 +55,7 @@ main.player {
         "track-info" 6rem
         "progressbar" 3rem
         "media-controls" 10rem
-        "tabs" 5rem;
+        "tabs" 3rem;
     background: var(--panel);
     color: var(--primary);
 }
@@ -49,7 +65,7 @@ main.player {
     height: 100%;
 }
 
-button.icon {
+.icon-button {
     background: none;
 
     & img {
@@ -83,6 +99,14 @@ button.icon {
 .track-info {
     padding: 1rem 3rem;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.track-info > .track-title {
+    font-size: 2rem;
+    width: 10ch;
 }
 
 .album-art {
@@ -95,11 +119,11 @@ button.icon {
     }
 }
 
-.album-art > img.album-cover {
+.album-art > .album-cover {
     border-radius: 0.5rem;
 }
 
-img.album-cover {
+.album-cover {
     aspect-ratio: 1;
 }
 
@@ -110,14 +134,14 @@ img.album-cover {
     }
 }
 
-div.progressbar {
+.player > .progressbar {
     width: calc(100% - 3rem);
     /* height: 2px; */
     display: grid;
     place-items: center;
 }
 
-div.progressbar > .bar {
+.player > .progressbar > .bar {
     position: relative;
     display: flex;
     flex-direction: row;
@@ -127,17 +151,17 @@ div.progressbar > .bar {
     background: var(--secondary);
 }
 
-div.progressbar > .bar > .playerhead {
+.progressbar > .bar > .playerhead {
     position: relative;
     height: 1rem;
     width: 1rem;
     border-radius: 0.5rem;
-    top: -0.5rem;
+    top: calc(-0.5rem + 1px);
     left: -0.5rem;
     background: var(--primary);
 }
 
-div.media-controls {
+.media-controls {
     width: 100%;
     padding: 1rem 3rem;
     display: flex;
@@ -146,13 +170,13 @@ div.media-controls {
     align-items: center;
 }
 
-div.media-controls > .media-button {
+.media-controls > .media-button {
     height: 3rem;
     width: 3rem;
     margin: 0.25rem;
 }
 
-div.media-controls > .media-button.pause {
+.media-controls > .media-button.pause {
     height: 4rem;
     width: 4rem;
     background: var(--primary);
@@ -166,21 +190,279 @@ div.media-controls > .media-button.pause {
 
 .tabs {
     display: grid;
-    grid-template-rows: 5rem 1fr;
-}
-
-.tabs-headings {
-    display: grid;
+    place-items: center;
     width: 100%;
     height: 100%;
-    grid-template-columns: 1fr 1fr 1fr;
-    place-items: center;
-    padding-bottom: 1rem;
+    grid-area: tabs;
     color: var(--secondary);
     font-weight: 600;
+    grid-template-columns: 1fr 1fr 1fr;
+    margin-bottom: 1rem;
 }
 
-.tabs-headings .tab-name {
+.tabs .tab-name {
     text-align: center;
-    width: 100%;
+    width: calc(100% - 1rem);
+    height: 2rem;
+    box-sizing: content-box;
+    padding: calc(0.5rem - 1px) 0;
+    line-height: 2rem;
+    vertical-align: middle;
+    background: none;
+}
+
+.player > .tab-content {
+    display: none;
+}
+
+.player.player-tabopen {
+    grid-template:
+        "album-art track-info media-controls" 5rem
+        "tabs tabs tabs" 3rem
+        "tab-content tab-content tab-content" 1fr / 6rem 1fr 5rem;
+}
+
+.player.player-tabopen > .top-controls,
+.player.player-tabopen > .progressbar {
+    display: none;
+}
+
+.player.player-tabopen > .media-controls {
+    padding: 0;
+}
+
+.player.player-tabopen > .media-controls > .media-button {
+    display: none;
+}
+
+.player.player-tabopen > .media-controls > .media-button.pause {
+    display: block;
+    height: 2rem;
+    width: 2rem;
+
+    & > img {
+        padding: 0.25rem;
+    }
+}
+
+.player.player-tabopen > .album-art {
+    padding: 1rem;
+}
+
+.player.player-tabopen > .track-info {
+    padding: 1rem 0;
+
+    & > .track-title {
+        font-size: 1.2rem;
+    }
+
+    & > .track-artist {
+        font-size: 0.8rem;
+    }
+}
+
+.player.player-tabopen .tabs {
+    border-bottom: 1px solid var(--secondary);
+    margin-bottom: 0;
+}
+
+.player.player-tabopen .tab-name {
+    border-bottom: 2px solid transparent;
+}
+
+.player.player-upnextopen .tab-name.tab-up-next {
+    border-color: var(--primary);
+}
+
+.player.player-lyricsopen .tab-name.tab-lyrics {
+    border-color: var(--primary);
+}
+
+.player.player-creditsopen .tab-name.tab-credits {
+    border-color: var(--primary);
+}
+
+.player.player-lyricsopen > .lyrics-container {
+    display: flex;
+}
+
+.player .lyrics-container {
+    flex-direction: column;
+    grid-area: tab-content;
+    padding: 2rem;
+    color: var(--secondary);
+}
+
+.player .lyrics-container > span {
+    line-height: 2.5rem;
+    font-weight: 700;
+    font-size: 1.25rem;
+}
+
+.player .lyrics-container > span.highlighted {
+    color: var(--primary);
+}
+
+/* view transitions stuff */
+
+.top-controls {
+    view-transition-name: top-controls;
+}
+
+.album-cover {
+    view-transition-name: album-cover;
+}
+
+.track-info > .track-title {
+    view-transition-name: track-title;
+}
+
+.track-info > .track-artist {
+    view-transition-name: track-artist;
+}
+
+.progressbar {
+    view-transition-name: progressbar;
+}
+
+.media-controls > .prev-track {
+    view-transition-name: media-controls-prev-track;
+}
+.media-controls > .rewind {
+    view-transition-name: media-controls-rewind;
+}
+.media-controls > .fastforward {
+    view-transition-name: media-controls-fastforward;
+}
+.media-controls > .next-track {
+    view-transition-name: media-controls-next-track;
+}
+
+.media-controls > .pause {
+    view-transition-name: pause-button;
+}
+
+.tabs {
+    view-transition-name: tabs;
+}
+
+.tab-name.tab-up-next {
+    view-transition-name: tab-up-next;
+}
+.tab-name.tab-lyrics {
+    view-transition-name: tab-lyrics;
+}
+.tab-name.tab-credits {
+    view-transition-name: tab-credits;
+}
+
+.tab-content {
+    view-transition-name: tab-content;
+}
+
+::view-transition-old(*),
+::view-transition-new(*),
+::view-transition-group(*) {
+    animation-duration: var(--view-transition-duration);
+    animation-timing-function: linear;
+}
+
+::view-transition-old(top-controls),
+::view-transition-old(progressbar),
+::view-transition-old(media-controls-prev-track),
+::view-transition-old(media-controls-rewind),
+::view-transition-old(media-controls-fastforward),
+::view-transition-old(media-controls-next-track) {
+    animation-name: fade-out;
+    animation-duration: calc(0.25 * var(--view-transition-duration));
+}
+
+::view-transition-new(top-controls),
+::view-transition-new(progressbar) {
+    animation-name: fade-in;
+    animation-duration: calc(0.25 * var(--view-transition-duration));
+    animation-delay: calc(0.75 * var(--view-transition-duration));
+}
+
+::view-transition-old(media-controls-prev-track),
+::view-transition-old(media-controls-rewind),
+::view-transition-old(media-controls-fastforward),
+::view-transition-old(media-controls-next-track) {
+    animation-name: fade-out;
+    animation-duration: calc(0.1 * var(--view-transition-duration));
+}
+
+::view-transition-new(media-controls-prev-track),
+::view-transition-new(media-controls-rewind),
+::view-transition-new(media-controls-fastforward),
+::view-transition-new(media-controls-next-track) {
+    animation-name: fade-in;
+    animation-duration: calc(0.1 * var(--view-transition-duration));
+    animation-delay: calc(0.9 * var(--view-transition-duration));
+}
+
+::view-transition-old(tab-content) {
+    animation-name: move-out;
+}
+
+::view-transition-new(tab-content) {
+    animation-name: move-in;
+}
+
+@keyframes move-in {
+    from {
+        transform: translateY(100%);
+    }
+
+    to {
+        transform: translateY(0%);
+    }
+}
+@keyframes move-out {
+    from {
+        transform: translateY(0%);
+    }
+
+    to {
+        transform: translateY(100%);
+    }
+}
+
+@keyframes fade-out {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slide-onscreen {
+    from {
+        transform: translateY(-60cqh);
+    }
+
+    to {
+        transform: translateY(0%);
+    }
+}
+@keyframes slide-offscreen {
+    from {
+        transform: translateY(0%);
+    }
+
+    to {
+        transform: translateY(-60cqh);
+    }
 }
