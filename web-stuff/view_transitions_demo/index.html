@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="./main.css" />
+        <title>View Transitions Demo</title>
+    </head>
+    <body>
+        <main class="player">
+            <div class="top-controls">
+                <button class="icon top-button player-close">
+                    <img src="./icons/chevron-down.svg" alt="Minimise Player" />
+                </button>
+                <button class="icon top-button player-settings">
+                    <img src="./icons/more-vert.svg" alt="Settings" />
+                </button>
+            </div>
+            <div class="album-art">
+                <img
+                    src="./annie-spratt-unsplash.jpg"
+                    alt=""
+                    class="album-cover"
+                    width="1800"
+                    height="1800"
+                />
+            </div>
+            <div class="track-info">
+                <h1 class="track-title">Nostalgia</h1>
+                <span class="track-artist">Annie Spratt</span>
+            </div>
+            <div class="progressbar">
+                <div class="bar">
+                    <div class="playerhead"></div>
+                </div>
+            </div>
+            <div class="media-controls">
+                <button class="icon media-button">
+                    <img src="./icons/skip-prev.svg" alt="Previous Track" />
+                </button>
+                <button class="icon media-button">
+                    <img src="./icons/rewind-10.svg" alt="Rewind 10 seconds" />
+                </button>
+                <button class="icon media-button pause">
+                    <img src="./icons/pause.svg" alt="Pause" />
+                </button>
+                <button class="icon media-button">
+                    <img
+                        src="./icons/forward-10.svg"
+                        alt="Forward 10 seconds"
+                    />
+                </button>
+                <button class="icon media-button">
+                    <img src="./icons/skip-next.svg" alt="Next Track" />
+                </button>
+            </div>
+            <div class="tabs">
+                <div class="tabs-headings">
+                    <span class="tab-name">Up Next</span>
+                    <span class="tab-name">Lyrics</span>
+                    <span class="tab-name">Credits</span>
+                </div>
+                <div class="tab-content" hidden>
+                    <ul>
+                        <li class="track">
+                            <img src="" alt="" class="album-cover" />
+                            <h3>Track Name</h3>
+                            <span>Track Artist</span>
+                        </li>
+                        <li class="track">
+                            <img src="" alt="" class="album-cover" />
+                            <h3>Track Name</h3>
+                            <span>Track Artist</span>
+                        </li>
+                        <li class="track">
+                            <img src="" alt="" class="album-cover" />
+                            <h3>Track Name</h3>
+                            <span>Track Artist</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </main>
+    </body>
+</html>
