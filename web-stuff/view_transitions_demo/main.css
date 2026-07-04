@@ -45,8 +45,9 @@ body {
 }
 
 .player {
-    width: 40vmin;
-    height: 80vmin;
+    width: 100%;
+    max-width: 520px;
+    height: 100%;
     display: grid;
     place-items: center;
     grid-template:
