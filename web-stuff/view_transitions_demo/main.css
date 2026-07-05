@@ -123,6 +123,7 @@ body {
 .album-art {
     display: grid;
     place-items: center;
+    container-name: album-art-wrapper;
     container-type: size;
     padding: 0rem 1.5rem;
     & img {
@@ -138,7 +139,7 @@ body {
     aspect-ratio: 1;
 }
 
-@container (aspect-ratio) {
+@container album-art-wrapper {
     img.album-cover {
         height: 100cqmin;
         width: 100cqmin;
@@ -228,10 +229,6 @@ body {
     background: var(--panel-hover);
 }
 
-.player > .tab-content {
-    display: none;
-}
-
 .player.player-tabopen {
     grid-template:
         "album-art track-info media-controls" 5rem
@@ -318,7 +315,7 @@ body {
 }
 
 .player.player-upnextopen > .tab-content > .up-next-container {
-    display: flex;
+    display: block;
 }
 
 .player.player-lyricsopen > .tab-content > .lyrics-container {
