@@ -1,0 +1,162 @@
+* {
+    padding: 0;
+    margin: 0;
+    border: none;
+    box-sizing: border-box;
+}
+
+a,
+button {
+    color: inherit;
+    font: inherit;
+}
+
+a,
+a:visited {
+    text-decoration: none;
+}
+
+:root {
+    --bg: #121317;
+    --header-bg: #2e3440;
+    --item-bg: #1e2126;
+    --item-bg-hover: #2e3440;
+
+    --text-primary: #e1ecff;
+    --text-secondary: #848d9c;
+    --text-selection: rgba(94, 129, 172, 0.3);
+
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    color: var(--text-primary);
+    background: var(--bg);
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    width: 100%;
+    height: 100%;
+}
+
+#app {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-rows: 4rem 1fr;
+    place-items: start center;
+    row-gap: 3rem;
+}
+
+header {
+    height: 100%;
+    width: 100%;
+    background: var(--header-bg);
+    display: flex;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 500;
+}
+
+.header-logo-container {
+    margin-left: 2rem;
+    height: 3rem;
+    width: 3rem;
+}
+
+.header-logo {
+    width: 100%;
+    height: 100%;
+}
+
+.header-title {
+    margin-left: 2rem;
+}
+
+.header-title span {
+    color: var(--text-secondary);
+}
+
+.header-title span:last-child {
+    color: var(--text-primary);
+}
+
+.explorer {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(40ch, 1fr));
+    grid-auto-rows: min-content;
+    gap: 1rem;
+    /* place-items: start center;
+    place-content: start center; */
+    align-content: start;
+    width: 100%;
+    height: 100%;
+    padding: 0 2rem;
+}
+
+main .item {
+    background: var(--item-bg);
+    width: 100%;
+    height: 3rem;
+    border-radius: 0.5rem;
+    font-size: 1.5rem;
+    line-height: 2rem;
+    display: grid;
+    place-items: center start;
+    grid-template-columns: 3rem 1fr min-content;
+    padding: 0 0.5rem;
+}
+
+.item:hover {
+    background: var(--item-bg-hover);
+}
+
+main .item .item-icon {
+    height: 100%;
+    padding: 0.5rem 0;
+    place-self: center;
+}
+
+main .item .item-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0 0.5rem;
+    width: 100%;
+    text-align: left;
+}
+
+main .item .item-size {
+    font-size: 1.2rem;
+    place-self: center end;
+}
+
+@media only screen and (max-width: 900px) {
+    main {
+        justify-content: center;
+    }
+}
+
+::-webkit-scrollbar,
+::-webkit-scrollbar-thumb {
+    width: 5px;
+    height: 5px;
+    border-radius: 2.5px;
+}
+
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-corner {
+    background: #121317;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #e1ecff;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #d8dee9;
+}
+
+::selection {
+    background: var(--text-selection);
+}
