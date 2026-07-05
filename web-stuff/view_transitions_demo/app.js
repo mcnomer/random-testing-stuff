@@ -6,7 +6,7 @@ const playerContainer = document.querySelector("main.player");
 const tabContentContainer = document.querySelector(".tab-content");
 
 const tabs = ["up-next", "lyrics", "credits"];
-let tabOpen = "up-next";
+let tabOpen = "";
 
 function switchTab(newTab = "") {
     tabOpen = newTab;
