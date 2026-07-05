@@ -17,6 +17,7 @@ button {
     --album-theme-colour: #353835;
     --panel: oklch(from var(--album-theme-colour) 25% c calc(h + 30));
     --primary: white;
+    --panel-hover: rgb(from var(--primary) r g b / 25%);
     --secondary: #aaa;
     --font: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 
@@ -42,6 +43,12 @@ body {
     width: 4rem;
     height: 2rem;
     margin: 1rem;
+}
+
+@media screen and (max-width: 700px) {
+    .corner-container {
+        display: none;
+    }
 }
 
 .player {
@@ -203,13 +210,19 @@ body {
 
 .tabs .tab-name {
     text-align: center;
-    width: calc(100% - 1rem);
+    width: 100%;
     height: 2rem;
     box-sizing: content-box;
     padding: calc(0.5rem - 1px) 0;
     line-height: 2rem;
     vertical-align: middle;
     background: none;
+    transition: background-color 0.1s ease;
+}
+
+.tabs .tab-name:hover,
+.tabs .tab-name:active {
+    background: var(--panel-hover);
 }
 
 .player > .tab-content {
@@ -277,6 +290,7 @@ body {
 
 .player.player-lyricsopen .tab-name.tab-lyrics {
     border-color: var(--primary);
+    color: var(--primary);
 }
 
 .player.player-creditsopen .tab-name.tab-credits {

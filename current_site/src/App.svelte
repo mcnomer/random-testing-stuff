@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { innerWidth } from "svelte/reactivity/window";
+
     import { fetchTree } from "./fetch_tree";
     import { getBreadcrumbsArray, getCurrentDir } from "./handle_urls";
     import Explorer from "./lib/Explorer.svelte";
@@ -13,6 +15,31 @@
     window.onpopstate = () => {
         dir = getCurrentDir();
     };
+
+    let headerWidth = $state(0);
+    let headerTitle: Element | null = $state(null);
+    $effect(() => {
+        // get element once page loaded
+        headerTitle = document.querySelector(".header-title");
+    });
+
+    $effect(() => {
+        // every time dir updates -> update recorded width
+        dir;
+        headerWidth = headerTitle?.getBoundingClientRect().width || 0;
+    });
+
+    const rem = $derived(
+        parseFloat(getComputedStyle(document.documentElement).fontSize),
+    );
+    $effect(() => {
+        if (!headerTitle || !innerWidth.current) return;
+        if (headerWidth > innerWidth.current - 10 * rem) {
+            headerTitle.className = "header-title breakpoint";
+        } else {
+            headerTitle.className = "header-title";
+        }
+    });
 </script>
 
 <header>

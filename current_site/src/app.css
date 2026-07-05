@@ -71,14 +71,20 @@ header {
 
 .header-title {
     margin-left: 2rem;
+    white-space: nowrap;
 }
 
 .header-title span {
     color: var(--text-secondary);
 }
 
+.header-title.breakpoint span {
+    display: none;
+}
+
 .header-title span:last-child {
     color: var(--text-primary);
+    display: initial;
 }
 
 .explorer {
