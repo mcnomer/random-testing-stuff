@@ -11,7 +11,7 @@
         <div class="corner-container">
             <button class="corner-toggle">Toggle</button>
         </div>
-        <main class="player player-tabopen player-lyricsopen">
+        <main class="player player-tabopen player-upnextopen">
             <div class="top-controls">
                 <button class="icon-button top-button player-close">
                     <img src="./icons/chevron-down.svg" alt="Minimise Player" />
@@ -63,34 +63,74 @@
                 <button class="tab-name tab-lyrics">Lyrics</button>
                 <button class="tab-name tab-credits">Credits</button>
             </div>
-            <div class="tab-content up-next-container">
-                <ul>
-                    <li class="track">
-                        <img src="" alt="" class="album-cover" />
-                        <h3>Track Name</h3>
-                        <span>Track Artist</span>
-                    </li>
-                    <li class="track">
-                        <img src="" alt="" class="album-cover" />
-                        <h3>Track Name</h3>
-                        <span>Track Artist</span>
-                    </li>
-                    <li class="track">
-                        <img src="" alt="" class="album-cover" />
-                        <h3>Track Name</h3>
-                        <span>Track Artist</span>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="tab-content lyrics-container">
-                <span class="highlighted">Lorem ipsum dolor sit amet.</span>
-                <span>Cum tempora perspiciatis explicabo quas?</span>
-                <span>Cupiditate illo molestias inventore possimus.</span>
-                <span>Dolorem magnam minus suscipit illo.</span>
-                <span>Nisi perspiciatis ipsa iste excepturi!</span>
-                <span>Deserunt architecto quod praesentium sunt.</span>
-                <span>Adipisci, beatae itaque! Voluptate, facilis.</span>
+            <div class="tab-content">
+                <div class="tab-content-item up-next-container">
+                    <ul class="up-next-list">
+                        <li class="up-next-track highlighted">
+                            <img
+                                src="./annie-spratt-unsplash.jpg"
+                                alt=""
+                                class="album-cover"
+                            />
+                            <div class="up-next-track-info">
+                                <h3>Nostalgia</h3>
+                                <span>Annie Spratt</span>
+                            </div>
+                            <img
+                                src="./icons/drag-handle.svg"
+                                alt=""
+                                class="handle"
+                            />
+                        </li>
+                        <li class="up-next-track">
+                            <img
+                                src="./brooke-balentine-unsplash.jpg"
+                                alt=""
+                                class="album-cover"
+                            />
+                            <div class="up-next-track-info">
+                                <h3>Underwater</h3>
+                                <span>Brooke Balentine</span>
+                            </div>
+                            <img
+                                src="./icons/drag-handle.svg"
+                                alt=""
+                                class="handle"
+                            />
+                        </li>
+                        <li class="up-next-track">
+                            <img
+                                src="./alin-gavriliuc-unsplash.jpg"
+                                alt=""
+                                class="album-cover"
+                            />
+                            <div class="up-next-track-info">
+                                <h3>Framing</h3>
+                                <span>Alin Gavriliuc</span>
+                            </div>
+                            <img
+                                src="./icons/drag-handle.svg"
+                                alt=""
+                                class="handle"
+                            />
+                        </li>
+                    </ul>
+                </div>
+                <div class="tab-content-item lyrics-container">
+                    <span class="highlighted">Lorem ipsum dolor sit amet.</span>
+                    <span>Cum tempora perspiciatis explicabo quas?</span>
+                    <span>Cupiditate illo molestias inventore possimus.</span>
+                    <span>Dolorem magnam minus suscipit illo.</span>
+                    <span>Nisi perspiciatis ipsa iste excepturi!</span>
+                    <span>Deserunt architecto quod praesentium sunt.</span>
+                    <span>Adipisci, beatae itaque! Voluptate, facilis.</span>
+                </div>
+                <div class="tab-content-item credits-container">
+                    <span>
+                        Inspired by YT Music and Bramus Van Damme's view
+                        transitions talk.
+                    </span>
+                </div>
             </div>
         </main>
     </body>
