@@ -1,0 +1,204 @@
+[
+    {
+        "name": "Me",
+        "start": "2003-05-09",
+        "branches": [
+            [
+                {
+                    "name": "Milo",
+                    "start": "2016-05-06",
+                    "end": "2026-01-26"
+                }
+            ],
+            [
+                {
+                    "name": "Mum",
+                    "start": "",
+                    "end": "",
+                    "knots": ["2003-05-09"]
+                },
+                {
+                    "name": "Dad",
+                    "start": "",
+                    "end": "",
+                    "knots": ["2003-05-09"]
+                },
+                {
+                    "name": "Seda",
+                    "start": "",
+                    "end": "",
+                    "knots": ["2003-05-09"]
+                }
+            ],
+            [
+                {
+                    "name": "Kyla",
+                    "start": "2018-05-23",
+                    "end": ""
+                },
+                {
+                    "name": "mH",
+                    "start": "2018-05-03",
+                    "end": "2025-04-17",
+                    "branches": [
+                        {
+                            "name": "Chloe",
+                            "start": "2018-05-23",
+                            "end": "2019-10-05"
+                        },
+                        {
+                            "name": "Aeri",
+                            "start": "2018-05-28",
+                            "end": "2025-01-11"
+                        },
+                        {
+                            "name": "Navi",
+                            "start": "2018-05-23",
+                            "end": "2021-12-16"
+                        },
+                        {
+                            "name": "Clara",
+                            "start": "2018-05-23",
+                            "end": "2021-11-29"
+                        },
+                        {
+                            "name": "Anne",
+                            "start": "2018-08-28",
+                            "end": "2019-09-29"
+                        },
+                        {
+                            "name": "Becky",
+                            "start": "2019-10-13",
+                            "end": "2024-01-01"
+                        },
+                        {
+                            "name": "Izzy",
+                            "start": "2022-02-23",
+                            "end": "2025-07-14"
+                        },
+                        {
+                            "name": "Willow",
+                            "start": "2022-07-15",
+                            "end": "2023-12-06"
+                        },
+                        {
+                            "name": "Pel",
+                            "start": "2021-11-24",
+                            "end": "2023-12-10"
+                        },
+                        {
+                            "name": "Smart",
+                            "start": "2018-05-23",
+                            "end": "2022-11-30"
+                        }
+                    ]
+                },
+                {
+                    "name": "Isolation",
+                    "start": "2018-12-07",
+                    "end": "2019-08-06"
+                }
+            ],
+            [
+                {
+                    "name": "Oak Lodge Primary School",
+                    "start": "2007-09-01",
+                    "end": "2014-07-30"
+                },
+                {
+                    "name": "Langley Park School for Boys",
+                    "start": "2014-09-01",
+                    "end": "2018-11-04",
+                    "branches": [
+                        {
+                            "name": "Ben",
+                            "start": "2014-09-01",
+                            "end": "2018-11-04"
+                        },
+                        {
+                            "name": "Aaliaan",
+                            "start": "2015-10-01",
+                            "end": "2021-12-29"
+                        }
+                    ]
+                },
+                {
+                    "name": "Uni",
+                    "start": "2023-09-18",
+                    "end": "2028-06-09",
+                    "branches": [
+                        {
+                            "name": "Zak",
+                            "start": "2023-09-18",
+                            "end": "2025-06-06"
+                        },
+                        {
+                            "name": "Jake",
+                            "start": "2023-09-18",
+                            "end": "2025-06-20"
+                        },
+                        {
+                            "name": "Josh",
+                            "start": "2023-09-18",
+                            "end": "2025-06-06"
+                        }
+                    ]
+                },
+                {
+                    "name": "Cambridge Tutors College",
+                    "start": "2019-11-19",
+                    "end": "2020-01-05"
+                },
+                {
+                    "name": "Cloudlearn (A levels)",
+                    "start": "2020-10-01",
+                    "end": "2021-04-24"
+                }
+            ],
+            [
+                {
+                    "name": "Boyden Tiles (Purley Way)",
+                    "start": "2021-06-28",
+                    "end": "2023-09-03"
+                },
+                {
+                    "name": "Boyden Tiles (Summer Work)",
+                    "start": "2024-06-17",
+                    "end": "2024-09-13"
+                },
+                {
+                    "name": "Europe Trip pt.1 (France, Switzerland, Italy",
+                    "start": "2024-09-14",
+                    "end": "2024-09-21"
+                },
+                {
+                    "name": "Seagate Internship",
+                    "start": "2025-09-01",
+                    "end": "2026-08-21",
+                    "branches": [
+                        {
+                            "name": "Shea",
+                            "start": "2025-09-01",
+                            "end": "2026-08-21"
+                        },
+                        {
+                            "name": "Michael",
+                            "start": "2025-09-01",
+                            "end": "2026-08-21"
+                        },
+                        {
+                            "name": "Harvey",
+                            "start": "2025-09-01",
+                            "end": "2026-08-21"
+                        },
+                        {
+                            "name": "Tony",
+                            "start": "2025-09-01",
+                            "end": "2026-08-21"
+                        }
+                    ]
+                }
+            ]
+        ]
+    }
+]

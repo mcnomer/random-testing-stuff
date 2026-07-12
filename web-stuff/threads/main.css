@@ -1,0 +1,127 @@
+* {
+    padding: 0;
+    border: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+a,
+button {
+    color: inherit;
+    font: inherit;
+}
+
+a,
+a:visited {
+    text-decoration: inherit;
+}
+
+:root {
+    width: 100%;
+    height: 100%;
+    --text-primary: #333;
+    --bg-primary: oklch(80% 0% 0);
+    --bg-secondary: oklch(from var(--bg-primary) 75% c h);
+    --bg-tertiary: oklch(from var(--bg-primary) 70% c h);
+    --font: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+
+    --year-height: 50vh;
+    --bg-thread: oklch(0.6 0.12 517.24 / 1);
+}
+
+@supports (height: 50lvh) {
+    :root {
+        --year-height: 50lvh;
+    }
+}
+
+body {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 100%;
+    font-family: var(--font);
+    background: var(--bg-primary);
+}
+
+#root {
+    width: 100%;
+    height: calc(25 * var(--year-height));
+    display: grid;
+    grid-template: "year-markers main" auto / 5rem 1fr;
+    place-items: start center;
+}
+
+ul.year-markers {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+}
+
+ul.year-markers > li {
+    height: var(--year-height);
+    background: var(--bg-secondary);
+    line-height: var(--year-height);
+    text-align: center;
+}
+
+ul.year-markers > li:nth-child(2n) {
+    background: var(--bg-tertiary);
+}
+
+.thread-container {
+    display: grid;
+    grid-auto-flow: column;
+    gap: 1rem;
+}
+
+#root > .thread-container {
+    grid-template-areas: "a b main-thread c d e f";
+    grid-template-rows: auto;
+    height: 100%;
+    gap: 3rem;
+}
+
+#root > .thread-container > .thread {
+    grid-area: main-thread;
+}
+
+/* prettier-ignore */
+.thread { --data-depth: 8; }
+/* prettier-ignore */
+.thread[data-depth="1"] { --data-depth: 1; }
+/* prettier-ignore */
+.thread[data-depth="2"] { --data-depth: 2; }
+/* prettier-ignore */
+.thread[data-depth="3"] { --data-depth: 3; }
+/* prettier-ignore */
+.thread[data-depth="4"] { --data-depth: 4; }
+/* prettier-ignore */
+.thread[data-depth="5"] { --data-depth: 5; }
+/* prettier-ignore */
+.thread[data-depth="6"] { --data-depth: 6; }
+/* prettier-ignore */
+.thread[data-depth="7"] { --data-depth: 7; }
+/* prettier-ignore */
+.thread[data-depth="8"] { --data-depth: 8; }
+
+.thread-container
+    > .thread:nth-child(1 of .thread):nth-last-child(1 of .thread) {
+    margin: 0 calc(5rem / var(--data-depth));
+}
+
+.thread-container > .thread:only-child {
+    margin: 0 1rem;
+}
+
+.thread {
+    width: calc(1rem / var(--data-depth));
+    height: calc(var(--year-height) * (var(--data-end) - var(--data-start)));
+    margin-top: calc(var(--year-height) * var(--data-start)) !important;
+    background: oklch(
+        from var(--bg-thread) l c
+            calc(mod((var(--data-depth) + 2) / 3.6, 0.924) * 180)
+    );
+}
